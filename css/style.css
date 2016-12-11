@@ -1,3 +1,31 @@
 body{
-  background-color: green;
+  background-color: black;
+}
+
+.container{
+ width:500px;
+ margin: 0px auto;
+ text-align:center;
+}
+
+.box{
+ display: inline-block;
+}
+
+.square, .squareW, .squareB{
+ height:50px;
+ width:50px;
+ float:left;
+ border:1px solid green;
+}
+
+.squareW{
+  background-image: url("GA.png");
+  background-size: 50px 50px;
+  background-repeat: no-repeat;
+}
+.squareB{
+  background-image: url("MA.png");
+  background-size: 50px 50px;
+  background-repeat: no-repeat;
 }
