@@ -1,9 +1,7 @@
 
-function Player(name, color, disable){
+function Player(name){
   var _name = name;
   var _score = 2;
-  var _color = color; // 'B' or 'W' (black or white)
-  var _disable = disable;
 
   this.getName = function(){
     return _name;
@@ -21,19 +19,6 @@ function Player(name, color, disable){
     return _score;
   };
 
-  this.getColor = function(){
-    return _color;
-  };
-
-  this.disable = function(){
-    _disable = true;
-  };
-  this.enable =function(){
-    _disable = false;
-  };
-  this.isDisable = function(){
-    return _disable;
-  };
 }
 
 $(init);
@@ -42,8 +27,8 @@ $(init);
 var player1;
 var player2;
 var grid = [];
-const WIDTH = 8;
-const HEIGHT = 8;
+const WIDTH = 4;
+const HEIGHT = 4;
 var currentTurn = 'B';
 var listPosToChangeColor = [];
 
@@ -51,8 +36,8 @@ function init(){
   var name1 = 'isma'; //prompt("Name of the player 1: ");
   var name2 = 'jos';  //prompt("Name of the player 2: ");
 
-  player1 = new Player(name1,'W',false);
-  player2 = new Player(name2,'B',true);
+  player1 = new Player(name1);
+  player2 = new Player(name2);
 
   for (var line = 0; line < HEIGHT; line++) {
     grid[line] = new Array();
@@ -69,24 +54,16 @@ function init(){
 }
 
 function changeTurn(){
-  listPosToChangeColor =[];
-
   if(currentTurn === 'B'){
     currentTurn = 'W';
-    player1.enable();
-    player2.disable();
   }else if (currentTurn === 'W'){
     currentTurn = 'B';
-    player2.enable();
-    player1.disable();
   }
 }
 
 function isCellEmpty(line, column){
   return grid[line][column] === '';
 }
-
-function isHorizontal(){}
 
 function drawGrid(){
   var $box = $('.box');
@@ -109,8 +86,8 @@ function isValidMoved(line, column){
   isValid += isOestValid(line, column);
   isValid += isNorthEast(line, column);
   isValid += isSouthEast(line, column);
-  isValid += isSouthOest(line, column);
-  isValid += isNorthOest(line, column);
+  isValid += isSouthWest(line, column);
+  isValid += isNorthWest(line, column);
 
   if(!isValid){
     listPosToChangeColor =[];
@@ -119,6 +96,7 @@ function isValidMoved(line, column){
 }
 
 function insertMove(id){
+  listPosToChangeColor = [];
   var line = id.split('-')[0];
   var column = id.split('-')[1];
   if (isCellEmpty(line,column)){
@@ -126,7 +104,14 @@ function insertMove(id){
     if(isValidMoved(line, column)){
       changeImage();
       addImage(line,column);
+      showScore();
       changeTurn();
+      if(!anyPossibleMoves()){
+        changeTurn();
+        if(!anyPossibleMoves()){
+          alert('There is not possible moves');
+        }
+      }
     }else{
       alert('Invalid move');
     }
@@ -357,7 +342,7 @@ function isNorthEast(line, column){
   }
 }
 
-function isNorthOest(line, column){
+function isNorthWest(line, column){
   var listTmpPos = [];
 
   if((line>1) && (line<HEIGHT) && (column>1) && (column<WIDTH)){
@@ -387,7 +372,7 @@ function isNorthOest(line, column){
   }
 }
 
-function isSouthOest(line, column){
+function isSouthWest(line, column){
   var listTmpPos = [];
 
   if((line>=0) && (line<HEIGHT-2) && (column>1) && (column<WIDTH)){
@@ -428,7 +413,7 @@ function isSouthEast(line, column){
       cntOpositeColor++;
       listTmpPos.push({'line': line,'column': column});
       line++;
-      column--;
+      column++;
     }
     if(cntOpositeColor>0){
       if( (line<HEIGHT) && (column<WIDTH)  && grid[line][column]===currentTurn){
@@ -443,4 +428,25 @@ function isSouthEast(line, column){
   }else{
     return false;
   }
+}
+
+function showScore(){
+  var $displayScore = $('.scoreBox');
+  $displayScore.html(player1.getName()+': '+player1.getScore()+  '<br>'+player2.getName()+': '+player2.getScore()+ '<br><br>');
+}
+
+function anyPossibleMoves(){
+  var isPossibleMove = false;
+  var line = 0;
+  while(line<HEIGHT && isPossibleMove === false){
+    var column = 0;
+    while(column<WIDTH  && isPossibleMove === false){
+      if(isCellEmpty(line,column) && isValidMoved(line,column)){
+        isPossibleMove = true;
+      }
+      column++;
+    }
+    line++;
+  }
+  return isPossibleMove;
 }
