@@ -27,10 +27,11 @@ $(init);
 var player1;
 var player2;
 var grid = [];
-const WIDTH = 4;
-const HEIGHT = 4;
+const WIDTH = 8;
+const HEIGHT = 8;
 var currentTurn = 'B';
 var listPosToChangeColor = [];
+var $errorSound;
 
 function init(){
   var name1 = 'isma'; //prompt("Name of the player 1: ");
@@ -51,14 +52,20 @@ function init(){
   grid[HEIGHT/2][WIDTH/2-1]   = 'B';
   grid[HEIGHT/2][WIDTH/2]     = 'W';
   drawGrid();
+  showScore();
+  $errorSound = $('#errorSound');
 }
 
 function changeTurn(){
+  var scoreDiv = $('.scoreTurn'+currentTurn);
+  scoreDiv.attr('class', 'score'+currentTurn);
   if(currentTurn === 'B'){
     currentTurn = 'W';
   }else if (currentTurn === 'W'){
     currentTurn = 'B';
   }
+  scoreDiv = $('.score'+currentTurn);
+  scoreDiv.attr('class', 'scoreTurn'+currentTurn);
 }
 
 function isCellEmpty(line, column){
@@ -113,10 +120,10 @@ function insertMove(id){
         }
       }
     }else{
-      alert('Invalid move');
+      $errorSound.play();
     }
   }else{
-    alert('Invalid move: The cell is not empty');
+    $errorSound.play();
   }
 }
 
@@ -431,8 +438,10 @@ function isSouthEast(line, column){
 }
 
 function showScore(){
-  var $displayScore = $('.scoreBox');
-  $displayScore.html(player1.getName()+': '+player1.getScore()+  '<br>'+player2.getName()+': '+player2.getScore()+ '<br><br>');
+  var $scoreB = $('#scoreB');
+  var $scoreW = $('#scoreW');
+  $scoreB.html(player1.getScore()+ '<br>'+player1.getName());
+  $scoreW.html(player2.getScore()+'<br>'+player2.getName());
 }
 
 function anyPossibleMoves(){
