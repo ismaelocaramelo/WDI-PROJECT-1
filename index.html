@@ -6,17 +6,27 @@
     <link rel="stylesheet" href="css/style.css">
     <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/jquery.jrumble.1.3.js">
+    </script>
   </head>
   <body>
-    <div class="background"></div>
+    <div id="playerName" class="showDiv">
+      <div class="nameContainer">
+        <input placeholder="Player Name1" type="text" class="name1"> <br>
+        <input placeholder="Player Name2" type="text" class="name2"><br>
+        <button class="acceptButton" type="button" onclick ="validName()">Accept</button>
+      </div>
+    </div>
+    <div id="gameOver" class="hiddenDiv">
+      <span id="results"></span>
+    </div>
     <div class="container">
       <div id="scoreW" class="scoreW"></div>
       <div id="scoreB" class="scoreTurnB"></div>
-      <div class="box">
-        <div class="backgroundBox"></div>
-      </div>
+      <div class="box"></div>
     </div>
-    <audio id="errorSound" src="Sounds/zumbidomsn.mp3"></audio>
-    <div class="scoreBox"></div>
+    <audio id="errorSound" src="Sounds/zumbidomsn.mp3" type="audio/mp3"></audio>
+    <button class="clearBoard" type="button" onclick="init()">Clear</button>
+
   </body>
 </html>

@@ -26,20 +26,21 @@ $(init);
 
 var player1;
 var player2;
-var grid = [];
+var grid;
 const WIDTH = 8;
 const HEIGHT = 8;
-var currentTurn = 'B';
-var listPosToChangeColor = [];
+var currentTurn;
+var listPosToChangeColor;
 var $errorSound;
 
 function init(){
-  var name1 = 'isma'; //prompt("Name of the player 1: ");
-  var name2 = 'jos';  //prompt("Name of the player 2: ");
 
-  player1 = new Player(name1);
-  player2 = new Player(name2);
+  currentTurn = 'B';
+  $('#scoreB').attr('class', 'scoreTurnB');
+  $('#scoreW').attr('class', 'scoreW');
 
+  grid = [];
+  listPosToChangeColor = [];
   for (var line = 0; line < HEIGHT; line++) {
     grid[line] = new Array();
     for (var column = 0; column < WIDTH; column++) {
@@ -52,7 +53,6 @@ function init(){
   grid[HEIGHT/2][WIDTH/2-1]   = 'B';
   grid[HEIGHT/2][WIDTH/2]     = 'W';
   drawGrid();
-  showScore();
   $errorSound = $('#errorSound');
 }
 
@@ -74,7 +74,7 @@ function isCellEmpty(line, column){
 
 function drawGrid(){
   var $box = $('.box');
-
+  $box.html('<div class="backgroundBox"></div>');
   for (var line = 0; line < HEIGHT; line++) {
     for (var column = 0; column < WIDTH; column++) {
       var letter = grid[line][column];
@@ -116,14 +116,14 @@ function insertMove(id){
       if(!anyPossibleMoves()){
         changeTurn();
         if(!anyPossibleMoves()){
-          alert('There is not possible moves');
+          winningOrLose();
         }
       }
     }else{
-      $errorSound.play();
+      rumble();
     }
   }else{
-    $errorSound.play();
+    rumble();
   }
 }
 
@@ -185,7 +185,7 @@ function isNorthValid(line, column){
    //Comprobamos que en la posición de line actual
    //el color de la casilla sea igual al de nuestro turno.
       if(line>=0 && grid[line][column]===currentTurn){
-        listPosToChangeColor = listPosToChangeColor.concat(listTmpPos);
+        listPosToChangeColor =  listPosToChangeColor.concat(listTmpPos);
         return true;
       }else{
         return false;
@@ -440,8 +440,8 @@ function isSouthEast(line, column){
 function showScore(){
   var $scoreB = $('#scoreB');
   var $scoreW = $('#scoreW');
-  $scoreB.html(player1.getScore()+ '<br>'+player1.getName());
-  $scoreW.html(player2.getScore()+'<br>'+player2.getName());
+  $scoreW.html(player1.getScore()+ '<br>'+player1.getName());
+  $scoreB.html(player2.getScore()+'<br>'+player2.getName());
 }
 
 function anyPossibleMoves(){
@@ -458,4 +458,45 @@ function anyPossibleMoves(){
     line++;
   }
   return isPossibleMove;
+}
+
+
+function validName(){
+  var name1 = $('.name1').val();
+  var name2 = $('.name2').val();
+  if(name1 !== '' && name2 !== ''){
+    player1 = new Player(name1);
+    player2 = new Player(name2);
+    showScore();
+    $('#playerName').attr('class', 'hiddenDiv');
+  }else{
+    alert('The fields needs to be filled');
+  }
+
+}
+
+function winningOrLose(){
+  var score1 = player1.getScore();
+  var score2 = player2.getScore();
+  var gameOver = $('#gameOver');
+  gameOver.attr('class', 'showDiv');
+  var span = $('#results');
+  if(score1> score2){
+    span.html('The winner is: '+ player1.getName());
+  }else if(score2 > score1){
+    span.html('The winner is: '+ player2.getName());
+  }else{
+    span.html('Draw! but GA always wins');
+  }
+}
+
+function rumble(){
+  $errorSound.get(0).play();
+  var divToRumble = $('.scoreTurn'+currentTurn);
+  divToRumble.jrumble({rangeX: 0,rangeY: 0,rangeRot: 5});
+  divToRumble.trigger('startRumble');
+  setTimeout(function(){
+    divToRumble.trigger('stopRumble');
+  }, 1000);
+
 }

@@ -2,26 +2,11 @@
   font-family: bronx;
   src: url(Bronx.ttf);
 }
-.background{
-  position: fixed;
-  left: 0;
-  right: 0;
-  z-index: -2;
-  margin-top: -70px;
 
-  display: block;
-  background-image: url('background.jpg');
-  background-size: 100%;
-  -webkit-filter: blur(5px);
-  -moz-filter: blur(5px);
-  -o-filter: blur(5px);
-  -ms-filter: blur(5px);
-  filter: blur(5px);
-  width: 100%;
-  height: 100%;
-}
 body{
-
+  background: #136a8a; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #136a8a , #267871); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #136a8a , #267871); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .container{
@@ -97,4 +82,70 @@ body{
 }
 .scoreTurnW, .scoreTurnB{
   border: 3px solid yellow;
+}
+
+.showDiv{
+  position: absolute;
+  background-color:rgba(0, 0, 0, 0.8);
+  width: 500px;
+  height: 600px;
+  z-index: 100;
+  top: 40px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  margin: 0px auto;
+  border: 1px solid green;
+}
+
+.showDiv .nameContainer input{
+  width: 200px;
+  height: 35px;
+  font-size: 1.1em;
+  background-color: white;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+}
+
+.hiddenDiv {
+  display: none;
+}
+
+.name1, .name2{
+  font-family: bronx;
+}
+
+input:focus{
+  border: 1px solid orange;
+}
+
+
+button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 16px;
+  margin: 4px auto;
+  cursor: pointer;
+}
+.nameContainer {
+  display: block;
+  width: 200px;
+  margin: 0px auto;
+  margin-top: 70px;
+}
+
+#results{
+  display: block;
+  font-size: 5em;
+  color: white;
+  margin-top: 100px;
+  text-align: center;
+  font-family: bronx;
+  word-wrap:break-word;
 }
