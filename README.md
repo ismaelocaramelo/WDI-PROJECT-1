@@ -22,8 +22,7 @@ One of the problems I had was the logic part, how I could verify if the movement
 
 -Being able to make a strategy game suitable for all audiences.
 
-![Alt text](http://imgur.com/a/8QT2K "Optional title")
-
+![image](http://imgur.com/a/8QT2K )
 ##Future Improvements
 
 -The option that the user can upload a profile image, 
