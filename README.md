@@ -22,6 +22,8 @@ One of the problems I had was the logic part, how I could verify if the movement
 
 -Being able to make a strategy game suitable for all audiences.
 
+![Alt text](/WDI_PROJECT_1/Screen Shot 2016-12-14 at 09.55.51.png "Optional Title")
+
 ![image](http://imgur.com/a/8QT2K )
 ##Future Improvements
 
