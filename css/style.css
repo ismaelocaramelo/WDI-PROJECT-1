@@ -18,7 +18,6 @@ body{
 
 .box{
  display: inline-block;
-
 }
 .backgroundBox{
   position: fixed;
@@ -30,7 +29,6 @@ body{
   height: 445px;
   opacity: 0.6;
   filter: alpha(opacity=60);
-
 }
 
 .square, .squareW, .squareB{
@@ -119,7 +117,6 @@ body{
 input:focus{
   border: 1px solid orange;
 }
-
 
 button {
   background-color: #4CAF50;
